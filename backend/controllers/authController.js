@@ -3,9 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
-const JWT_SECRET = "supersecretkey";  
-const TOKEN_EXPIRY = "7d"; 
-
 exports.signup = async (req, res) => {
   try {
     const { name, email, password, education_level, interests, role } = req.body;
@@ -54,8 +51,8 @@ exports.login = async (req, res) => {
 
     const token = jwt.sign(
       { id: user._id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: TOKEN_EXPIRY }
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.TOKEN_EXPIRY }
     );
 
     res.status(200).json({
